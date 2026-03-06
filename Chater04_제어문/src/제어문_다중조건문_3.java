@@ -59,6 +59,11 @@ public class 제어문_다중조건문_3 {
         System.out.println("평균:"+avg);
         System.out.println("학점:"+score+op);
         
+        if(false)
+        {
+        	System.out.println("Hello");
+        }
+        
 	}
 
 }
