@@ -35,7 +35,12 @@
  *   ------------    --------------
  *   | int[]          | int[] , void (자체)
  *   
- *   
+ *   => 자체 출력 / 결과값을 받아서 출력 
+ *      ------- void 
+ *      
+ *   // 5개 정수를 받아서 (매개변수) int[]
+ *   // 평균 / 총점을 출력
+ *      --------------- 자체 => void  
  */
 
 import java.util.Arrays;
@@ -96,6 +101,27 @@ public class 메소드_7 {
 		System.out.println("정렬 후:");
 		System.out.println(Arrays.toString(arr));
 	}
+	
+	static void gesan(int[] arr)
+	{
+		int sum=0;
+		double avg=0.0;
+		// 인덱스
+		/*for(int i=0;i<arr.length;i++)
+		{
+			sum+=arr[i];
+		}*/
+		// 실제 데이터 이용 
+		for(int i:arr)
+		{
+			sum+=i;
+		}
+		
+		avg=sum/(double)arr.length;
+		
+		System.out.println("총합:"+sum);
+		System.out.println("평균:"+avg);
+	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 //        char c='B';
@@ -119,6 +145,7 @@ public class 메소드_7 {
 		
 		sort(arr,"ASC");// void는 받는 값이 없다 => 메소드 호출 
 		sort(arr,"DESC");
+		gesan(arr);
 	}
 
 }
