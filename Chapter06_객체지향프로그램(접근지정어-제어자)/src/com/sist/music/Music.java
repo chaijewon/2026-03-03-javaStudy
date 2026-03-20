@@ -16,6 +16,6 @@ public class Music {
    private String singer;
    private String album;
    private String state;
-   private int idcremnent;
-   private String poster;
+   private int idcrement;
+   //private String poster;
 }
