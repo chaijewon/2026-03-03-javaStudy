@@ -3,7 +3,16 @@ package com.sist.music;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-
+/*
+ *   class A
+ *   {
+ *     String name;
+ *     public void disp(String n)
+ *     {
+ *        name=n;
+ *     }
+ *   }
+ */
 // 데이터를 모아서 관리 => 데이터형 클래스 => 캡슐화 
 // MusicVO / MusicDTO / MusicEntity 
 // => 데이터를 보호 / 한번 모아서 전송 => 윈도우 / 브라우저 
