@@ -31,11 +31,23 @@ public class MusicList extends JPanel{
     	// - ▲ 1  ▼ 5  이미지 
     	String[] col={"순위","등폭","","곡명","가수명"};
     	Object[][] row=new Object[0][5];
-    	model=new DefaultTableModel(row,col);
+    	model=new DefaultTableModel(row,col)
+    	{
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+    		
+    	};
     	table=new JTable(model);
+    	table.getTableHeader().setReorderingAllowed(false);
     	table.setRowHeight(40);
     	JScrollPane js=new JScrollPane(table);
     	js.setBounds(10,120 , 980, 600);
+    	Object[] data={1,"1","","aaa","bbb"};
+    	model.addRow(data);
     	add(js);
     	
     }
