@@ -30,7 +30,7 @@ public class GenieMusic extends CommonsMusic{
 			Elements album=doc.select("table.list-wrap a.albumtitle");
 			Elements poster=doc.select("table.list-wrap a.cover img");
 			Elements etc=doc.select("table.list-wrap span.rank");
-			
+			// 크롤링 => File / DB
 			for(int i=0;i<title.size();i++)
 			{
 				Music m=new Music();
