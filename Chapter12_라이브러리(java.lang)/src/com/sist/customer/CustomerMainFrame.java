@@ -5,10 +5,14 @@ import javax.swing.*;
 public class CustomerMainFrame extends JFrame
 implements ActionListener
 {
+	CardLayout card=new CardLayout();
     Login login=new Login();
     CustomerDataCollection cdc=new CustomerDataCollection();
-	public CustomerMainFrame()
+	CustomerList cList=new CustomerList();
+    public CustomerMainFrame()
 	{
+    	setLayout(card);
+    	add("cList",cList);
 		setSize(950, 700);
 		//setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
