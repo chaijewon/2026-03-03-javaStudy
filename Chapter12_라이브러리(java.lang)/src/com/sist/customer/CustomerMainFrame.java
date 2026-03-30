@@ -2,22 +2,76 @@ package com.sist.customer;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+/*
+ *   String
+ *    = equals => 로그인 / 아이디 중복 / 비밀번호 
+ *             => 상세보기 
+ *    = contains => 검색 
+ *    = length => 입력여부 확인 
+ *    = startsWith/endsWith => 자동 완성기 
+ *      => 자음 검색 
+ *    = 분리 : split => String[]
+ *            util => StringTokenizer 
+ *    = 데이터형 => 문자열 => valueOf 
+ *    = 데이터베이스 / 파일 => toUpperCase 
+ *    = 입력상에서 공백 : trim()
+ *    = 문자 위치 : indexOf / lastIndexOf 
+ *   Math 
+ *    = random() 
+ *    = ceil() : 올림 
+ *   Object
+ *    = toString() : 객체를 문자열로 변환 
+ *    = clone() : 복제 
+ *    = finalize() : 소멸자 
+ *    = equals / hashCode 
+ *    = getClass
+ *   ------------------------------------
+ *    StringBuffer / StringBuilder => 문자열 결합 
+ *    Wrapper : 데이터형 => 클래스 
+ *    -------- 문자열 => 정수 , 실수 , 논리 
+ *     AutoBoxing / UnBoxing 
+ *    System 
+ *    -------------------------------------
+ *    java.util / java.text 
+ *    => java.io / java.net / java.sql 
+ */
 public class CustomerMainFrame extends JFrame
 implements ActionListener
 {
 	CardLayout card=new CardLayout();
     Login login=new Login();
     CustomerDataCollection cdc=new CustomerDataCollection();
-	CustomerList cList=new CustomerList();
+	
+    CustomerList cList=new CustomerList();
+	CustomerFind cFind=new CustomerFind();
+	
+	JMenuItem list=new JMenuItem("사원 목록");
+	JMenuItem find=new JMenuItem("사원 검색");
+	JMenuItem exit=new JMenuItem("종료");
     public CustomerMainFrame()
 	{
+    	JMenu menu=new JMenu("메뉴");
+    	menu.add(list);
+    	menu.add(find);
+    	menu.addSeparator();// 구분자
+    	menu.add(exit);
+    	JMenuBar bar=new JMenuBar();
+    	bar.add(menu);
+    	
+    	setJMenuBar(bar);
+    	
     	setLayout(card);
     	add("cList",cList);
+    	add("cFind",cFind);
 		setSize(950, 700);
 		//setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		login.b1.addActionListener(this);
 		login.b2.addActionListener(this);
+		
+		list.addActionListener(this);
+		find.addActionListener(this);
+		exit.addActionListener(this);
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -95,6 +149,19 @@ implements ActionListener
 			 *   contains / startsWith / toUpperCase 
 			 *   => compare 
 			 */
+		}
+		else if(e.getSource()==list)
+		{
+			card.show(getContentPane(), "cList");
+		}
+		else if(e.getSource()==find)
+		{
+			card.show(getContentPane(), "cFind");
+		}
+		else if(e.getSource()==exit)
+		{
+			dispose();// 메모리 해제 
+			System.exit(0);// 프로그램 종료
 		}
 	}
 

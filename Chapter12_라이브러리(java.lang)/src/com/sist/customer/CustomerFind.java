@@ -1,5 +1,12 @@
 package com.sist.customer;
 
-public class CustomerFind {
+import java.awt.Color;
 
+import javax.swing.JPanel;
+
+public class CustomerFind extends JPanel{
+    public CustomerFind()
+    {
+    	setBackground(Color.orange);
+    }
 }
