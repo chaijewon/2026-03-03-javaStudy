@@ -1,6 +1,7 @@
 package com.sist.customer;
 
 import java.io.FileReader;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class CustomerDataCollection {
@@ -91,6 +92,48 @@ public class CustomerDataCollection {
 	   return result;
    }
    // 2. 목록 => 페이지 나누기 
+   public int customerTotalPage()
+   {
+	   return (int)(Math.ceil(customers.length/10.0));
+   }
+   public CustomerVO[] customerListData(int page)
+   {
+	   
+	   int totalpage=customerTotalPage();
+	   int row=10;
+	   if(totalpage==page && customers.length%10>0)
+	   {
+		   row=customers.length%10;
+	   }
+	   System.out.println("row="+row);
+	   CustomerVO[] cust=new CustomerVO[row];
+	   
+	   // 배열에 값을 채운다
+	   int j=0;// 10개씩 나눠주는 변수 
+	   int pagecnt=(page*row)-row;//배열의 시작점 
+	   /*
+	    *   1page => 0~9
+	    *   2page => 10~19
+	    *   3page => 20~29
+	    *   ..
+	    *   ..
+	    *   ..
+	    */
+	   // => 오라클에서 나눠서 저장 => 인라인뷰 
+	   // => MySql => limit
+	   for(int i=0;i<customers.length;i++)
+	   {
+		   //System.out.println(customers[i]);
+		   if(j<10 && i>=pagecnt)
+		   {
+			   //System.out.println(customers[i]);
+			   cust[j]=customers[i];
+			   j++;
+		   }
+	   }
+	   return cust;
+	   
+   }
    // 3. 검색 => 지역 / 등급 / 등록일 => contains => toUpperCase
    // 4. 등록 / 삭제 => Collection 
    public static void main(String[] args) {
@@ -117,5 +160,23 @@ public class CustomerDataCollection {
 	  {
 		  System.out.println("로그인되었습니다!!");
 	  }*/
+	  CustomerDataCollection cdc=new CustomerDataCollection();
+	  Scanner scan=new Scanner(System.in);
+	  System.out.print("페이지 입력:");
+	  int page=scan.nextInt();
+	  CustomerVO[] cust=cdc.customerListData(page);
+	  //System.out.println(Arrays.toString(cust));
+	  for(CustomerVO vo:cust)
+	  {
+		  System.out.println(
+			 vo.getCustomer_id()+" "
+			 +vo.getLogin_id()+" "
+			 +vo.getName()+" "
+			 +vo.getEmail()+" "
+			 +vo.getPhone()+" "
+			 +vo.getLoc()+" "
+			 +vo.getGrade()
+		  );
+	  }
    }
 }
