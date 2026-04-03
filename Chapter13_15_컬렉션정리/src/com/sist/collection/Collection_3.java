@@ -1,8 +1,8 @@
 package com.sist.collection;
 /*
- *    retainAll : 교집합 
- *    addAll() : 전체집합 
- *    removeAll() : 차집합 
+ *    retainAll : 교집합  ==> INTERSECT
+ *    addAll() : 전체집합  ==> UNION ALL
+ *    removeAll() : 차집합  ==> MINUS
  *    -------------------
  *    지니뮤직 / 멜론 
  *      |       |
@@ -11,6 +11,36 @@ package com.sist.collection;
  *      | => 크롤링
  *      
  *    => Set / Map / => 응용 
+ *    
+ *    컬렉션 프레임워크 
+ *      다수의 데이터를 쉽게 관리 할 수 있게 만든 라이브러리 
+ *                  ----
+ *                  데이터 관리 : 추가 , 수정 , 삭제  ,읽기 
+ *                  -------------------------------- 자료구조 
+ *                   | 메모리 , 파일 , 데이터베이스 
+ *                                  | insert , update, delete,select
+ *                            | read , write , delete
+ *                     | add , set , remove , get
+ *      동적 메모리 할당 (자동으로 크기가 조정) 
+ *       | 배열:고정(크기지정) => 크기를 지정하지 않는다 
+ *      자동으로 인덱스 번호 관리 => 빈공백이 없다 
+ *           => 메모리 누수가 없다 
+ *           => 인덱스는 항상 순차적이다 
+ *           
+ *       => 주요 메소드 (List)
+ *          add(Object) :추가
+ *          remove(int index) : 삭제 
+ *          get(int index): 읽기
+ *          isEmpty(): 값이 있는지 확인
+ *          clear() : 전체 삭제 
+ *          size() : 저장 갯수 
+ *          -------------------
+ *          두개의 데이터 
+ *            retainAll() : 교집합 
+ *            addAll() : 전체 데이터 
+ *            removeAll() : 차집합 
+ *          배열을 ArrayList
+ *          Arrays.asList(배열명) 
  */
 import java.util.*;
 
