@@ -38,5 +38,16 @@ public class FoodService {
 	   return fList.get(no-1);
    }
    // 검색 
-   
+   public List<FoodVO> food_type_find(String type)
+   {
+	   return fList.stream()
+			  .filter(food->food.getType().contains(type))
+			  .collect(Collectors.toList());
+   }
+   public List<FoodVO> food_address_find(String addr)
+   {
+	   return fList.stream()
+			  .filter(food->food.getAddress().contains(addr))
+			  .collect(Collectors.toList());
+   }
 }

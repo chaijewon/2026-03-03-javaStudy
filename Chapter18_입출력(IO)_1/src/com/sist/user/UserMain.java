@@ -66,6 +66,26 @@ public class UserMain {
 	        		FoodVO vo=fService.food_detail(no);
 	        		System.out.println(vo);
 	        	}
+	        	case 3 -> {
+	        		System.out.print("한식,중식,양식,일식,분식:");
+	        		String type=scan.next();
+	        		List<FoodVO> list=fService.food_type_find(type);
+	        		// 출력 
+	        		list.stream()
+	        		    .forEach(food->System.out.println(
+	        		    	      food.getName()+"("+food.getType()+")"
+	        		    		));
+	        	}
+	        	case 4 -> {
+	        		System.out.print("주소 입력:");
+	        		String type=scan.next();
+	        		List<FoodVO> list=fService.food_address_find(type);
+	        		// 출력 
+	        		list.stream()
+	        		    .forEach(food->System.out.println(
+	        		    	      food.getName()+"("+food.getAddress()+")"
+	        		    		));
+	        	}
 	        	default -> System.out.println("메뉴가 없습니다");
         	}
         }
