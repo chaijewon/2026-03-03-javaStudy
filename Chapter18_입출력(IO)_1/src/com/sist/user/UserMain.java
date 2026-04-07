@@ -72,7 +72,7 @@ public class UserMain {
 	        		List<FoodVO> list=fService.food_type_find(type);
 	        		// 출력 
 	        		list.stream()
-	        		    .forEach(food->System.out.println(
+	        		    .forEach( food->System.out.println(
 	        		    	      food.getName()+"("+food.getType()+")"
 	        		    		));
 	        	}
