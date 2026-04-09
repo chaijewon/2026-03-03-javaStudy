@@ -49,6 +49,7 @@ public class Runable_2 extends JFrame implements ActionListener
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
         new Runable_2();
+        //A a=new A();
 	}
     
 	class BarThread extends Thread
