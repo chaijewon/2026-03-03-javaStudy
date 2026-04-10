@@ -83,6 +83,9 @@ implements ActionListener,Runnable
     	// 이벤트 => 서버로 값을 전송하는 위치 
     	login.b1.addActionListener(this);// 로그인 
     	login.b2.addActionListener(this);// 취소
+    	
+    	tf.addActionListener(this); // 채팅
+    	b3.addActionListener(this); // 나가기 
     }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -146,6 +149,29 @@ implements ActionListener,Runnable
 			}
 			connect(id, name, sex);
 		}
+		else if(e.getSource()==tf) // 채팅요청
+		{
+			String msg=tf.getText();
+			if(msg.trim().length()<1) // 입력이 없는 상태
+			{
+				tf.requestFocus();
+				return;
+			}
+			// 전송 
+			try
+			{
+				out.write((Function.CHAT+"|"
+						+msg+"\n").getBytes());
+			}catch(Exception ex) {}
+			tf.setText("");
+		}
+		else if(e.getSource()==b3)
+		{
+			try
+			{
+			  out.write((Function.EXIT+"|\n").getBytes());	
+			}catch(Exception ex) {}
+		}
 	}
 	@Override
 	public void run() {
@@ -182,6 +208,23 @@ implements ActionListener,Runnable
                   }
 				  case Function.CHAT ->{
 					  ta.append(st.nextToken()+"\n");
+				  }
+				  case Function.MYEXIT->{
+					  dispose();
+					  System.exit(0);
+				  }
+				  case Function.EXIT->{
+					  // 남아 있는 사람 -> 테이블에서 삭제
+					  String mid=st.nextToken();
+					  for(int i=0;i<model.getRowCount();i++)
+					  {
+						  String id=model.getValueAt(i, 0).toString();
+						  if(mid.equals(id))
+						  {
+							  model.removeRow(i);
+							  break;
+						  }
+					  }
 				  }
 				}
 			}

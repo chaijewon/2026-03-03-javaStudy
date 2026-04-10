@@ -149,6 +149,29 @@ public class Server implements Runnable{
 						  }
 						  
 					  }
+					  case Function.CHAT->{
+						  String data=st.nextToken();
+						  messageAll(Function.CHAT+"|["
+							+name+"] "+data);
+					  }
+					  case Function.EXIT->{
+						  messageAll(Function.EXIT+"|"+id);
+						  for(int i=0;i<waitVc.size();i++)
+						  {
+							  Client c=waitVc.get(i);
+							  if(c.id.equals(id))
+							  {
+								  messageTo(Function.MYEXIT+"|");
+								  waitVc.remove(i);
+								  try
+								  {
+									  in.close();
+									  out.close();
+									  // 전화 끊기 
+								  }catch(Exception ex) {}
+							  }
+						  }
+					  }
 					}
 				}
 			}catch(Exception ex) {}
