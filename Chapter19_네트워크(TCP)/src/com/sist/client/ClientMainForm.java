@@ -1,15 +1,38 @@
 package com.sist.client;
 import java.awt.*;
+
 import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.util.StringTokenizer;
+
 import javax.swing.*;
 import javax.swing.table.*;
-public class ClientMainForm extends JFrame{
+
+import com.sist.commons.Function;
+// 클라이언트에서 사용하는 쓰레드 => 서버값을 읽어서 출력만 
+public class ClientMainForm extends JFrame
+implements ActionListener,Runnable
+{
     JTextArea ta;
     JTextField tf;
     JTable table;
     DefaultTableModel model;
     JButton b1,b2,b3;
     LoginForm login=new LoginForm();
+    // 서버와 연결 
+    Socket s; // 전화기 => 전화걸기 => 서버와 연결 
+    // 전화번호 => 서버 new Socket("서버IP",port)
+    /*
+     *   1. 서버는 클라이언트 정보 (IP , PORT)
+     *       |OutputStream    | BufferedReader
+     *   2. 클라이언트는 서버 정보(IP,PORT)
+     *       |BufferedReader  | OutputStream 
+     */
+    OutputStream out; // 서버로 요청 
+    BufferedReader in; // 서버에서 응답한 값을 받는다 
     public ClientMainForm()
     {
     	ta=new JTextArea();
@@ -57,6 +80,9 @@ public class ClientMainForm extends JFrame{
     	setSize(790, 550);
     	//setVisible(true);
     	
+    	// 이벤트 => 서버로 값을 전송하는 위치 
+    	login.b1.addActionListener(this);// 로그인 
+    	login.b2.addActionListener(this);// 취소
     }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -65,6 +91,101 @@ public class ClientMainForm extends JFrame{
 			UIManager.setLookAndFeel("com.jtattoo.plaf.mcwin.McWinLookAndFeel");
 		}catch(Exception ex) {}
         new ClientMainForm();
+	}
+	// 서버와 연결 => 로그인 처리 
+	public void connect(String id,String name,String sex)
+	{
+		try
+		{
+			s=new Socket("localhost",3355);
+			// s=> 서버정보 
+			//s=new Socket("localhost",3355);
+			out=s.getOutputStream(); // 서버에서 읽어가는 곳
+			in=new BufferedReader(
+					new InputStreamReader(
+							s.getInputStream()));
+			out.write((Function.LOGIN+"|"
+					+id+"|"+name+"|"+sex+"\n").getBytes());
+		}catch(Exception ex){}
+		// 서버로부터 값을 읽어와라 => 쓰레드 사용 
+		new Thread(this).start();
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource()==login.b2)
+		{
+			dispose(); // 윈도우 메모리 회수 
+			System.exit(0); // 프로그램 종료
+		}
+		else if(e.getSource()==login.b1)
+		{
+			// 로그인 요청 
+			String id=login.tf1.getText();
+			if(id.trim().length()<1)
+			{
+				// 입력이 안된 상태 
+				login.tf1.requestFocus();
+				return;
+			}
+			String name=login.tf2.getText();
+			if(name.trim().length()<1)
+			{
+				// 입력이 안된 상태 
+				login.tf2.requestFocus();
+				return;
+			}
+			String sex="";
+			if(login.rb1.isSelected())
+			{
+				sex="남자";
+			}
+			else
+			{
+				sex="여자";
+			}
+			connect(id, name, sex);
+		}
+	}
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		try
+		{
+			while(true)
+			{
+				// 서버로부터 값을 읽는다 
+				String msg=in.readLine();
+				// in => 서버에서 보낸값 가지고 오기 
+				StringTokenizer st=
+						new StringTokenizer(msg,"|");
+				int protocol=Integer.parseInt(st.nextToken());
+				/*
+				 *   Function.LOGIN+"|"
+								 +id+"|"+name+"|"+sex
+				 */
+				switch(protocol)
+				{
+				  case Function.LOGIN ->{
+					  String[] data= {
+						 st.nextToken(),
+						 st.nextToken(),
+						 st.nextToken()
+					  };
+					  model.addRow(data);
+				  }
+				  case Function.MYLOG ->{
+                      String name=st.nextToken();
+                      login.setVisible(false);
+                      setVisible(true);
+                      setTitle(name);
+                  }
+				  case Function.CHAT ->{
+					  ta.append(st.nextToken()+"\n");
+				  }
+				}
+			}
+		}catch(Exception ex) {}
 	}
 
 }
