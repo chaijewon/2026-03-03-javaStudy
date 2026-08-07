@@ -156,6 +156,8 @@ public class Server implements Runnable{
 					  }
 					  case Function.EXIT->{
 						  messageAll(Function.EXIT+"|"+id);
+						  messageAll(Function.CHAT+"|[알림 ⏩] "
+									+name+"님 퇴장하셨습니다");
 						  for(int i=0;i<waitVc.size();i++)
 						  {
 							  Client c=waitVc.get(i);
